@@ -19,7 +19,7 @@ services:
     environment:
       - VIRTUAL_HOST=${VIRTUAL_HOST:?set it in .env}
       - LETSENCRYPT_HOST=${VIRTUAL_HOST:?set it in .env}
-      - LETSENCRYPT_EMAIL=frederick@tyteca.net
+      - LETSENCRYPT_EMAIL=frederick@podmytube.com
     volumes:
       - ./data/:/var/www/html/
     networks:

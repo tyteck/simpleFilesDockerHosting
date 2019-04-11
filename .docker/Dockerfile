@@ -9,3 +9,6 @@ ENV     APACHE_RUN_GROUP=www-data
 # setting timezone
 ENV     TZ=Europe/Paris
 RUN     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+COPY 	data/ /var/www/html/
+RUN 	chown -R www-data:www-data /var/www/html/
