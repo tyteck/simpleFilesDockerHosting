@@ -9,7 +9,7 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile
-    image: static.pmt
+    image: pods.pmt
     restart: always
     expose:
         - 80
