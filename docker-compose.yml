@@ -9,7 +9,7 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile
-    image: pods.pmt
+    image: httpd.pmt
     restart: always
     expose:
         - 80
@@ -21,7 +21,7 @@ services:
       - LETSENCRYPT_HOST=${VIRTUAL_HOST:?set it in .env}
       - LETSENCRYPT_EMAIL=frederick@podmytube.com
     volumes:
-      - ./data/:/var/www/html/
+        - ${DATA_DIR:?set it in .env}:/usr/local/apache2/htdocs/
     networks:
       - nginx-proxy
     
