@@ -9,7 +9,7 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile
-    image: hosting.pmt
+    image: httpd.pmt
     restart: always
     expose:
         - 80
