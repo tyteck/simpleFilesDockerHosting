@@ -1,9 +1,5 @@
 version: "3.3"
 services:
-  # ==============================================================
-  # here we are building image from the .docker/Dockerfile
-  # this image is starting from a official php-apache docker
-  # and creating host dashboard-pmt
   httpd:
     container_name: $CONTAINER_NAME
     image: httpd:2.4
@@ -11,8 +7,6 @@ services:
     expose:
       - 80
       - 443
-    # VIRTUAL_HOST should be only the domain (without http://)
-    # by example : www.example.com or sub.domain.fr
     environment:
       - VIRTUAL_HOST=${VIRTUAL_HOST:?set it in .env}
       - LETSENCRYPT_HOST=${VIRTUAL_HOST:?set it in .env}
@@ -20,8 +14,8 @@ services:
       - APACHE_RUN_USER=www-data
       - APACHE_RUN_GROUP=www-data
     command: >
-      sh -c "ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && 
-      echo $TZ > /etc/timezone &&
+      sh -c "ln -snf /usr/share/zoneinfo/Europe/Paris /etc/localtime && 
+      echo Europe/Paris > /etc/timezone &&
       exec httpd-foreground"
     volumes:
       - $DATA_DIR:/usr/local/apache2/htdocs/
