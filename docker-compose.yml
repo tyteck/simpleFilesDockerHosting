@@ -1,18 +1,16 @@
-version: '3.3'
-services:  
+version: "3.3"
+services:
   # ==============================================================
   # here we are building image from the .docker/Dockerfile
   # this image is starting from a official php-apache docker
   # and creating host dashboard-pmt
   httpd:
-    container_name: ${CONTAINER_NAME:?set it in .env}
-    build:
-      context: .
-      dockerfile: .docker/Dockerfile
-    image: httpd.pmt
+    container_name: $CONTAINER_NAME
+    image: httpd:2.4
     restart: always
     expose:
-        - 80
+      - 80
+      - 443
     # VIRTUAL_HOST should be only the domain (without http://)
     # by example : www.example.com or sub.domain.fr
     environment:
@@ -21,8 +19,12 @@ services:
       - LETSENCRYPT_EMAIL=frederick@podmytube.com
       - APACHE_RUN_USER=www-data
       - APACHE_RUN_GROUP=www-data
+    command: >
+      sh -c "ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && 
+      echo $TZ > /etc/timezone &&
+      exec httpd-foreground"
     volumes:
-        - ${DATA_DIR:?set it in .env}:/usr/local/apache2/htdocs/
+      - $DATA_DIR:/usr/local/apache2/htdocs/
     networks:
       - nginx-proxy
 
