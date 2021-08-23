@@ -2,7 +2,7 @@ version: "3.3"
 services:
   httpd:
     container_name: $CONTAINER_NAME
-    image: httpd:2.4
+    image: nginx
     restart: always
     expose:
       - 80
@@ -11,14 +11,9 @@ services:
       - VIRTUAL_HOST=${VIRTUAL_HOST:?set it in .env}
       - LETSENCRYPT_HOST=${VIRTUAL_HOST:?set it in .env}
       - LETSENCRYPT_EMAIL=frederick@podmytube.com
-      - APACHE_RUN_USER=www-data
-      - APACHE_RUN_GROUP=www-data
-    command: >
-      sh -c "ln -snf /usr/share/zoneinfo/Europe/Paris /etc/localtime && 
-      echo Europe/Paris > /etc/timezone &&
-      exec httpd-foreground"
     volumes:
-      - $DATA_DIR:/usr/local/apache2/htdocs/
+      - /etc/localtime:/etc/localtime:ro
+      - $DATA_DIR:/usr/share/nginx/html
     networks:
       - nginx-proxy
 
